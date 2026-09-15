@@ -1,0 +1,254 @@
+/* ==================================================================
+   代码块 + 高亮主题 + markdown 正文排版
+   ================================================================== */
+
+/* ---------- 代码块外壳 ---------- */
+.code-block {
+  margin: 14px 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--code-border);
+  background: var(--code-bg);
+}
+
+.code-block__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 34px;
+  padding: 0 10px 0 14px;
+  background: var(--code-bg-bar);
+  border-bottom: 1px solid var(--code-border);
+}
+
+.code-block__lang {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #7c8797;
+}
+
+.code-block__copy {
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 5px;
+  border: 1px solid var(--code-border);
+  background: transparent;
+  color: #8b96a6;
+  font-size: 11px;
+  transition: all 0.15s ease;
+}
+.code-block__copy:hover {
+  color: #fff;
+  border-color: #48546a;
+  background: #2a3444;
+}
+.code-block__copy.is-done {
+  color: #4ade80;
+  border-color: #2f6b46;
+  background: #17301f;
+}
+
+.code-block__pre {
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  background: var(--code-bg);
+}
+
+.code-block__pre code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--code-text);
+  tab-size: 2;
+  white-space: pre;
+}
+
+/* 行内的短代码 */
+.inline-code {
+  padding: 1px 5px;
+  margin: 0 2px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--brand-soft);
+  color: var(--brand-dark);
+  word-break: break-word;
+}
+
+/* ---------- highlight.js token 配色（深色代码面板） ---------- */
+.hljs {
+  color: var(--code-text);
+  background: transparent;
+}
+.hljs-comment,
+.hljs-quote {
+  color: #7d8590;
+  font-style: italic;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-doctag,
+.hljs-formula {
+  color: #ff7b72;
+}
+.hljs-string,
+.hljs-regexp,
+.hljs-char.escape,
+.hljs-symbol,
+.hljs-bullet {
+  color: #a5d6ff;
+}
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attr,
+.hljs-attribute,
+.hljs-property {
+  color: #79c0ff;
+}
+.hljs-title,
+.hljs-title.function_,
+.hljs-section,
+.hljs-name {
+  color: #d2a8ff;
+}
+.hljs-built_in,
+.hljs-type,
+.hljs-class .hljs-title,
+.hljs-params {
+  color: #ffa657;
+}
+.hljs-tag {
+  color: #7ee787;
+}
+.hljs-meta,
+.hljs-meta .hljs-keyword {
+  color: #8b949e;
+}
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #d2a8ff;
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: 700;
+}
+.hljs-addition {
+  color: #aff5b4;
+  background: #033a16;
+}
+.hljs-deletion {
+  color: #ffdcd7;
+  background: #67060c;
+}
+
+/* ==================================================================
+   markdown 正文排版（.md-body）
+   ================================================================== */
+.md-body {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  word-wrap: break-word;
+}
+.md-body > *:first-child {
+  margin-top: 0;
+}
+.md-body > *:last-child {
+  margin-bottom: 0;
+}
+
+.md-body p {
+  margin: 0 0 10px;
+}
+
+.md-body h2 {
+  margin: 22px 0 10px;
+  font-size: 15.5px;
+  color: var(--text);
+}
+.md-body h3 {
+  margin: 18px 0 8px;
+  font-size: 14.5px;
+  color: var(--text);
+}
+.md-body h4 {
+  margin: 14px 0 6px;
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+.md-body strong {
+  color: var(--text);
+  font-weight: 650;
+}
+
+.md-body ul,
+.md-body ol {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+.md-body li {
+  margin-bottom: 5px;
+}
+.md-body li::marker {
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.md-body blockquote {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--brand);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--brand-soft);
+  color: var(--text-secondary);
+}
+.md-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.md-body table {
+  width: 100%;
+  margin: 12px 0;
+  border-collapse: collapse;
+  font-size: 13px;
+  display: block;
+  overflow-x: auto;
+}
+.md-body th,
+.md-body td {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+.md-body th {
+  background: var(--bg-subtle);
+  color: var(--text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.md-body tr:nth-child(even) td {
+  background: var(--bg-subtle);
+}
+
+.md-body hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px dashed var(--border-strong);
+}
+
+.md-body a {
+  color: var(--brand);
+  border-bottom: 1px solid var(--brand-soft);
+}
+.md-body a:hover {
+  border-bottom-color: var(--brand);
+}
