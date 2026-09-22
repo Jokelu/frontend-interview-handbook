@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 
 // Vite 配置：https://vite.dev/config/
 export default defineConfig({
+  base: process.env.GITHUB_PAGES === 'true' ? '/frontend-interview-handbook/' : '/',
   plugins: [vue()],
   resolve: {
     alias: {
