@@ -16,6 +16,7 @@ import {
   Package,
   Palette,
   Server,
+  Smartphone,
   Sparkles,
   Zap,
   type LucideIcon,
@@ -45,6 +46,7 @@ const ICONS: Record<string, LucideIcon> = {
   'git-branch': GitBranch,
   sparkles: Sparkles,
   binary: Binary,
+  smartphone: Smartphone,
 }
 
 const icon = ICONS[props.name] ?? FileCode2

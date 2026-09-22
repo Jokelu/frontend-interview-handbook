@@ -1,6 +1,6 @@
 # 前端高频面试题 · 实战手册
 
-一个 Vue 3 + TypeScript 的面试题库应用。**140 道高频题**，按 14 个技术栈分组，每题都配齐三样东西：
+一个 Vue 3 + TypeScript 的面试题库应用。**152 道高频题**，按 15 个技术栈分组，每题都配齐三样东西：
 
 | 板块 | 内容 | 面向 |
 | --- | --- | --- |
@@ -28,10 +28,11 @@ npm run dev          # http://localhost:5188
 其他命令：
 
 ```bash
-npm run build        # 内容自检 → 类型检查 → 打包
-npm run preview      # 预览打包产物
+npm run build         # 内容自检 → 渲染冒烟 → 类型检查 → 打包
+npm run preview       # 预览打包产物
 npm run check:content # 只跑内容自检脚本
-npm run typecheck    # 只跑 vue-tsc
+npm run check:render  # 只跑渲染冒烟测试
+npm run typecheck     # 只跑 vue-tsc
 ```
 
 ---
@@ -54,7 +55,8 @@ npm run typecheck    # 只跑 vue-tsc
 | 12 | 工程化与项目场景 | 8 | Git、监控、CI/CD、微前端、组件库 |
 | 13 | 前端 AI 应用 | 8 | SSE 流式、打字机、RAG、Function Calling |
 | 14 | 算法与数据结构 | 10 | 复杂度、链表、栈队列、LRU、排序、DP、前端手写 |
-| | **合计** | **140** | |
+| 15 | 移动端与跨端 | 12 | 1px 边框、点击穿透、安全区、JSBridge、离线包、跨端选型 |
+| | **合计** | **152** | |
 
 ---
 
@@ -117,16 +119,27 @@ js-closure
 
 - 加一个新题 → 改 markdown，不动代码
 - 加一个新技术栈 → 新建一个 `.md`，刷新页面就出现
-- 单个技术栈内容太多 → 拆成多个文件，只要 frontmatter 的 `id` 相同、`part` 递增，就会自动合并到同一个菜单分组下（JavaScript 就是这么拆成 `javascript-basics.md` + `javascript-async.md` 的）
+- 单个技术栈内容太多 → 拆成多个文件，只要 frontmatter 的 `id` 相同、`part` 递增，就会自动合并到同一个菜单分组下（JavaScript 拆成 `javascript-basics.md` + `javascript-async.md`，移动端拆成 `mobile-adapt.md` + `mobile-hybrid.md`，菜单里仍是一个分类、题目编号连续）
 
-### 内容自检
+### 两道内容关卡
 
-`npm run check:content` 会在构建前扫描所有 markdown，拦住这几类会让解析错位的问题：
+**第一关：`npm run check:content`（结构层）** —— 拦住会让解析错位、页面直接缺内容的问题：
 
 - 代码块围栏没闭合（会导致后面的内容全被吞进代码块）
 - 代码块**内部**出现 `## ` 开头的行（会被误判成一道新题，所以示例里只能用 `###` 及以下标题）
 - 缺少 `@ask` / `@oral` / `@example` 等必需指令
 - 题目 `id` 重复（会导致路由互相覆盖）、`@level` / `@freq` 取值非法
+
+**第二关：`npm run check:render`（渲染层）** —— 拦住「能解析但渲染出来不对」的问题：
+
+- 表格语法写坏（原文是表格，渲染后却没出 `<table>`，页面上会变成一堆裸管道符）
+- 渲染出的 `<pre>` / `<table>` / `<code>` 标签不闭合
+- `@` 指令名漏进正文（说明这一行没被解析器识别，会原样显示给读者）
+- **代码块语言没在 `highlight.js` 里注册**（会退化成无高亮的灰文本）
+
+最后一条是真踩过的坑：新增移动端内容时用了 ```java 和 ```swift（JSBridge 那题的 Android / iOS 侧实现），
+但 `src/utils/markdown.ts` 里只注册了 18 种语言，这两个会静默降级成纯文本——不报错、不影响构建，
+只有肉眼翻到那一题才发现。现在这道检查会把「内容里用了但没注册」的语言直接列出来。
 
 ---
 
@@ -135,11 +148,13 @@ js-closure
 ```
 fe-interview-hub/
 ├─ scripts/
-│  └─ validate-content.mjs      # 内容自检脚本
+│  ├─ validate-content.mjs      # 内容自检（结构层）
+│  ├─ verify-render.mjs         # 渲染冒烟测试（渲染层）
+│  └─ screenshot.mjs            # 无头截图，用于更新 docs/ 下的预览图
 ├─ src/
 │  ├─ content/                  # 所有题目内容（改内容只动这里）
 │  │  ├─ _template.md           # 写作样板，下划线开头不参与渲染
-│  │  ├─ html.md  css.md  javascript-basics.md  algorithm.md  …
+│  │  ├─ html.md  css.md  javascript-basics.md  algorithm.md  mobile-adapt.md  …
 │  ├─ data/index.ts             # 汇总、排序、合并、搜索
 │  ├─ utils/
 │  │  ├─ contentParser.ts       # markdown → Category 解析器
@@ -186,7 +201,7 @@ fe-interview-hub/
 - **刷题进度**：点「标记为已掌握」，进度存 localStorage，侧边栏打勾并显示总进度条
 - **模拟面试**：从指定技术栈随机抽题、倒计时、逐题自评；没答上来的自动进复习清单
 - **复习清单**：按技术栈分组展示待复习题，侧边栏显示角标数量
-- **代码块**：语法高亮 + 语言标签 + 一键复制（40+ 种语言，按需加载不打包全量）
+- **代码块**：语法高亮 + 语言标签 + 一键复制（按需注册 20 种语言，不把 highlight.js 全量打进包）
 - **深浅色主题**：CSS 变量实现，切换记忆到 localStorage
 - **移动端适配**：窄屏下侧边栏变抽屉
 - **搜索**：标题 > 标签 > 分类 > 题干 > 正文的权重排序
@@ -204,6 +219,14 @@ fe-interview-hub/
 | 答题中（倒计时） | 复习清单 |
 | --- | --- |
 | ![模拟面试进行中](docs/screenshot-mock-running.png) | ![复习清单](docs/screenshot-review.png) |
+
+| 移动端与跨端 | 跨端方案对比（markdown 表格） |
+| --- | --- |
+| ![移动端分类](docs/screenshot-mobile-category.png) | ![跨端方案对比](docs/screenshot-mobile-table.png) |
+
+| JSBridge · 原生侧代码（Java / Swift 高亮） |
+| --- |
+| ![JSBridge 原生侧](docs/screenshot-mobile-native.png) |
 
 ## 新增一道题
 
@@ -248,7 +271,8 @@ css-your-new-id
 ```
 ```
 
-3. 保存，`npm run dev` 会自动刷新。构建前跑一次 `npm run check:content` 确认格式没问题。
+3. 保存，`npm run dev` 会自动刷新。提交前跑一次 `npm run check:content` 确认结构没问题。
+   如果示例里用了新的代码块语言（比如 ```kotlin），记得在 `src/utils/markdown.ts` 里注册，否则 `npm run check:render` 会报出来。
 
 ## 部署
 

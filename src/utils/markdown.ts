@@ -16,6 +16,7 @@ import css from 'highlight.js/lib/languages/css'
 import diff from 'highlight.js/lib/languages/diff'
 import dockerfile from 'highlight.js/lib/languages/dockerfile'
 import http from 'highlight.js/lib/languages/http'
+import java from 'highlight.js/lib/languages/java'
 import javascript from 'highlight.js/lib/languages/javascript'
 import json from 'highlight.js/lib/languages/json'
 import less from 'highlight.js/lib/languages/less'
@@ -26,6 +27,7 @@ import python from 'highlight.js/lib/languages/python'
 import scss from 'highlight.js/lib/languages/scss'
 import shell from 'highlight.js/lib/languages/shell'
 import sql from 'highlight.js/lib/languages/sql'
+import swift from 'highlight.js/lib/languages/swift'
 import typescript from 'highlight.js/lib/languages/typescript'
 import xml from 'highlight.js/lib/languages/xml'
 import yaml from 'highlight.js/lib/languages/yaml'
@@ -35,6 +37,7 @@ hljs.registerLanguage('css', css)
 hljs.registerLanguage('diff', diff)
 hljs.registerLanguage('dockerfile', dockerfile)
 hljs.registerLanguage('http', http)
+hljs.registerLanguage('java', java)
 hljs.registerLanguage('javascript', javascript)
 hljs.registerLanguage('json', json)
 hljs.registerLanguage('less', less)
@@ -45,6 +48,7 @@ hljs.registerLanguage('python', python)
 hljs.registerLanguage('scss', scss)
 hljs.registerLanguage('shell', shell)
 hljs.registerLanguage('sql', sql)
+hljs.registerLanguage('swift', swift)
 hljs.registerLanguage('typescript', typescript)
 hljs.registerLanguage('xml', xml)
 hljs.registerLanguage('yaml', yaml)
@@ -75,6 +79,8 @@ const LANG_LABEL: Record<string, string> = {
   markdown: 'Markdown',
   http: 'HTTP',
   nginx: 'Nginx',
+  java: 'Java / Android',
+  swift: 'Swift / iOS',
   dockerfile: 'Dockerfile',
   diff: 'Diff',
   plaintext: 'Text',

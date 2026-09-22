@@ -7,3 +7,6 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 *.log
+
+# 无头截图脚本（scripts/screenshot.mjs）用的临时浏览器 profile
+.chrome-profile/

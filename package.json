@@ -6,11 +6,12 @@
   "description": "前端高频面试题实战手册 - Vue3 + TypeScript",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/validate-content.mjs && vue-tsc --noEmit && vite build",
+    "build": "node scripts/validate-content.mjs && node scripts/verify-render.mjs && vue-tsc --noEmit && vite build",
     "build:only": "vite build",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit",
-    "check:content": "node scripts/validate-content.mjs"
+    "check:content": "node scripts/validate-content.mjs",
+    "check:render": "node scripts/verify-render.mjs"
   },
   "dependencies": {
     "highlight.js": "^11.11.1",
